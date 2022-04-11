@@ -25,16 +25,24 @@ form input {
   justify-self: flex-end;
 }
 
-#prevSearches {
-  flex-wrap: wrap;
+#holder {
   display: flex;
   padding: 1%;
+  flex-wrap: wrap;
 }
 
-#prevSearches h2 {
+#holder h2 {
   align-self: flex-start;
   width: 100%
 }
+
+#prevSearches{
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  align-self: flex-end;
+}
+
 #prevSearches button{
   font-size: 1rem;
   font-family: 'PT Serif', serif;

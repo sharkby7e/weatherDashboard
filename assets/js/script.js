@@ -1,12 +1,11 @@
 console.log("script.js linked")
 var searchInput = $('#searchInput')
 var searchBar = $('#searchBar')
+var prevSearches = $('#prevSearches')
 
 var prevSearches = $('#prevSearches')
 var searchArr = [] 
 
-// var city = ''
-// var state = ''
 var lat = ''
 var lon = ''
 
@@ -19,12 +18,15 @@ searchBar.on('submit', (e) => {
   if (searchArr.length === 4){
     searchArr.pop()
     searchArr.unshift(cityState)
-  } else {
+    makeButtons()
+  } else if(searchArr.length>0) {
     searchArr.unshift(cityState)
+    makeButtons()
+  } else{
+    searchArr.push(cityState)
+    makeButtons()
   }
-  if (searchArr.length > 0){
-    saveToMemory()
-  }
+  saveToMemory()
   fetchGeo(cityState)
   console.log(searchArr)
 })
@@ -65,7 +67,24 @@ function initializeMemory(){
   }else{
     return
   }
+  makeButtons()
 }
+
+function makeButtons() {
+  prevSearches.empty()
+  for(let i = 0; i<searchArr.length; i++){
+    var content = searchArr[i][0] + ',' + searchArr[i][1]  
+    console.log(content)
+    var newBtn = $("<button>").attr('data-city', i)
+    newBtn.text(content)
+    prevSearches.append(newBtn)
+  }
+}
+prevSearches.on('click', function(e)  {
+  var element = $(e.target)
+  var index = element.attr('data-city')
+  fetchGeo(searchArr[index])
+})
 initializeMemory()
 
 //data structure draft
