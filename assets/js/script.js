@@ -1,10 +1,12 @@
 console.log("script.js linked")
+var today = moment()
 var searchInput = $('#searchInput')
 var searchBar = $('#searchBar')
 var prevSearches = $('#prevSearches')
 
 var prevSearches = $('#prevSearches')
 var searchArr = [] 
+var loc = ""
 
 var lat = ''
 var lon = ''
@@ -27,6 +29,8 @@ searchBar.on('submit', (e) => {
     makeButtons()
   }
   saveToMemory()
+  loc = cityState[0] + ',' + cityState[1]
+  // console.log(loc)
   fetchGeo(cityState)
   console.log(searchArr)
 })
@@ -37,24 +41,52 @@ function fetchGeo(cityState) {
   var fetchGeocoding = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + ',' + state + ",US&limit=5&appid=" + owa
   fetch(fetchGeocoding)
     .then(response => response.json()).then(data=>{
-      console.log(data)
       lat = data[0].lat
       lon = data[0].lon
-      console.log(lat)
-      console.log(lon)
       fetchWeather(lat,lon)
     })
 }
 
-
 function fetchWeather(x,y) {
- var fetchLink = "https://api.openweathermap.org/data/2.5/onecall?lat=" + x + "&lon=" + y + "&exclude=minutely,hourly&units=imperial&appid=" + owa
+  var fetchLink = "https://api.openweathermap.org/data/2.5/onecall?lat=" + x + "&lon=" + y + "&exclude=minutely,hourly&units=imperial&appid=" + owa
+  var weatherObj = {}
   fetch(fetchLink)
     .then(response => response.json()).then(data => {
-    console.log(data)
+      console.log(data)
+      weatherObj = {
+        city: loc,
+        current: {
+          //icon, date, humidity, wind, uv index(formatted)
+          date: today.format('MM/DD/YY'),
+          icon: data.current.weather[0].icon,
+          temp: data.current.temp + ' °F',
+          hum: data.current.humidity,
+          wind: data.current.wind_speed,
+          uv: data.current.uvi
+        },
+      }
+      var future = []
+      for(let i = 0; i < 5; i++){
+        var futWeath = {
+          //date, icon, temp, humidity
+          date: today.add(1,'d').format('MM/DD/YY'),
+          temp: data.daily[i].temp.max,
+          icon: data.daily[i].weather[0].icon,
+          hum: data.daily[i].humidity + "%"
+        }
+        future.push(futWeath)
+      }
+      weatherObj.future=future
+      // console.log(weatherObj)
+      displayWeather(weatherObj)
+
   })
 }
 
+function displayWeather(obj) {
+  console.log(obj)
+  
+}
 function saveToMemory() {
   localStorage.setItem("memory",JSON.stringify(searchArr))
 }
@@ -63,7 +95,7 @@ function initializeMemory(){
   var mem =localStorage.getItem('memory')
   if(mem !== null){
     searchArr = JSON.parse(mem)
-    console.log(searchArr)
+    // console.log(searchArr)
   }else{
     return
   }
@@ -74,16 +106,19 @@ function makeButtons() {
   prevSearches.empty()
   for(let i = 0; i<searchArr.length; i++){
     var content = searchArr[i][0] + ',' + searchArr[i][1]  
-    console.log(content)
+    // console.log(content)
     var newBtn = $("<button>").attr('data-city', i)
     newBtn.text(content)
     prevSearches.append(newBtn)
   }
 }
+
 prevSearches.on('click', function(e)  {
   var element = $(e.target)
   var index = element.attr('data-city')
   fetchGeo(searchArr[index])
+  loc = searchArr[index][0] + ',' + searchArr[index][1]
+  // console.log(loc)
 })
 initializeMemory()
 
