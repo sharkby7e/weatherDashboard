@@ -4,8 +4,9 @@ body {
 }
 
 h1{
-  font-size: 4rem;
+  font-size: 3.75rem;
   margin: 1%;
+  align-self: flex-end
 }
 
 header {
@@ -19,24 +20,27 @@ form {
 }
 
 form input {
-  justify-self: flex-end;
   font-size: 1.25rem;
+  font-family: 'PT Serif', serif;
+  justify-self: flex-end;
 }
 
-#buttons {
+#prevSearches {
   flex-wrap: wrap;
   display: flex;
   padding: 1%;
 }
 
-#buttons h2 {
+#prevSearches h2 {
   align-self: flex-start;
   width: 100%
 }
-#buttons button{
+#prevSearches button{
   font-size: 1rem;
-  max-width: 50%;
+  font-family: 'PT Serif', serif;
+  width: 48%;
   margin: 1%;
   align-self: flex-end;
+  border-radius: 5px;
 }
 
