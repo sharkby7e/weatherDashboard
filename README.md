@@ -1,25 +1,23 @@
-# JSeopardy
+# Weather Dashboard
 
 ## Description 
-The goal of this project was to create a quiz applet to test your coding knowledge. The user is to be presented with a start page,
-and when they hit the start button, a series of questions was to be presented to them. The user will also have to answer the questions
-under time pressure, so a clock was to be implemented into the app. After answering the questions, the user also has the opportunity to 
-save their accomplishment in local storage.
+The goal of this application is to provide the user with weather information for cities of their choosing. The cities that the user inputs are saved in local memory, and weather data is populated using the Open Weather API. 
 
 
 ## Link and Preview of the site
 
-[Click to view the live application](https://sharkby7e.github.io/JSeopardy/)
+[Click to view the live application](https://sharkby7e.github.io/weatherDashboard/)
 
 ![Preview of JSeopardy](./assets/img/sitePreview.png)
 
 ## Technologies Employed
 
-| Techlogy   | Implementation/Use          |
-|:----------:|-----------------------------|
-|HTML        | Structure of Webpage        |
-|CSS         | Styling of Application      |
-|JavaScript  | Dynamically updating the DOM|
+| Techlogy      | Implementation/Use          |
+|:-------------:|-----------------------------|
+|HTML           | Structure of Webpage        |
+|jQuery         | Dynamic DOM manipulation    |
+|OpenWeatherAPI | Dynamically updating the DOM|
+|Moment.js      | Time and Date support       |
 
 ## Key Functions
 
