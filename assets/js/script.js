@@ -40,7 +40,7 @@ searchBar.on('submit', (e) => {
 function fetchGeo(cityState) {
   var city = cityState[0].trim()
   var state = cityState[1].trim()
-  var fetchGeocoding = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + ',' + state + ",US&limit=5&appid=" + owa
+  var fetchGeocoding = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + ',' + state + ",US&limit=5&appid=" + owa
   fetch(fetchGeocoding)
     .then(response => response.json()).then(data=>{
       lat = data[0].lat
