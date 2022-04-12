@@ -3,6 +3,8 @@ var today = moment()
 var searchInput = $('#searchInput')
 var searchBar = $('#searchBar')
 var prevSearches = $('#prevSearches')
+var currentHolder = $("#current")
+var futureHolder = $("#future")
 
 var prevSearches = $('#prevSearches')
 var searchArr = [] 
@@ -60,7 +62,7 @@ function fetchWeather(x,y) {
           date: today.format('MM/DD/YY'),
           icon: data.current.weather[0].icon,
           temp: data.current.temp + ' °F',
-          hum: data.current.humidity,
+          hum: data.current.humidity + '%',
           wind: data.current.wind_speed,
           uv: data.current.uvi
         },
@@ -84,9 +86,50 @@ function fetchWeather(x,y) {
 }
 
 function displayWeather(obj) {
-  console.log(obj)
-  
+  // console.log(obj)
+  // clear out old data
+  currentHolder.empty()
+  futureHolder.empty()
+
+  //populate current
+  var curCity = $('<h3>')
+  curCity.text(obj.city)
+  currentHolder.append(curCity)
+  var curDate = $('<h3>')
+  curDate.text(obj.current.date)
+  currentHolder.append(curDate)
+  var curIcon = $('<img>')
+  curIcon.attr('src', 'http://openweathermap.org/img/wn/'+ obj.current.icon+ '@2x.png')
+  currentHolder.append(curIcon)
+  var newTemp = $('<p>')
+  newTemp.text("Temp: "+ obj.current.temp)
+  currentHolder.append(newTemp)
+  var newHum = $('<p>')
+  newHum.text("Humidity: "+ obj.current.hum)
+  currentHolder.append(newHum)
+  var newWind = $('<p>')
+  newWind.text("Wind: "+ obj.current.wind + ' MPH')
+  currentHolder.append(newWind)
+  var newUV = $('<p>')
+  var newInd = $('<span>')
+  newInd.text(obj.current.uv)
+  newUV.text("UV Index: ")
+  if(obj.current.uv<3){
+    newInd.attr("style", 'background-color: green')
+  }else if(obj.current.uv<6){
+    newInd.attr("style", 'background-color: yellow')
+  }else if(obj.current.uv<8){
+    newInd.attr("style", 'background-color: orange')
+  }else{
+    newInd.attr("style", 'background-color: red')
+  }
+  newUV.append(newInd)
+  currentHolder.append(newUV)
+
+
+
 }
+
 function saveToMemory() {
   localStorage.setItem("memory",JSON.stringify(searchArr))
 }
