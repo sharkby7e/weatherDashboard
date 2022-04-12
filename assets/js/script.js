@@ -100,7 +100,7 @@ function displayWeather(obj) {
   curDate.text(obj.current.date)
   currentHolder.append(curDate)
   var curIcon = $('<img>')
-  curIcon.attr('src', 'http://openweathermap.org/img/wn/'+ obj.current.icon+ '@2x.png')
+  curIcon.attr('src', 'https://openweathermap.org/img/wn/'+ obj.current.icon+ '@2x.png')
   currentHolder.append(curIcon)
   var newTemp = $('<p>')
   newTemp.text("Temp: "+ obj.current.temp)
@@ -138,7 +138,7 @@ function displayWeather(obj) {
     newCard.append(futDate)
 
     var futIcon = $('<img>')
-    futIcon.attr('src', 'http://openweathermap.org/img/wn/'+ elm.icon+ '.png')
+    futIcon.attr('src', 'https://openweathermap.org/img/wn/'+ elm.icon+ '.png')
     newCard.append(futIcon)
 
     var futTemp = $('<p>')
