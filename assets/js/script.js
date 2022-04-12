@@ -34,7 +34,7 @@ searchBar.on('submit', (e) => {
   loc = cityState[0] + ',' + cityState[1]
   // console.log(loc)
   fetchGeo(cityState)
-  console.log(searchArr)
+  // console.log(searchArr)
 })
 
 function fetchGeo(cityState) {
@@ -54,7 +54,7 @@ function fetchWeather(x,y) {
   var weatherObj = {}
   fetch(fetchLink)
     .then(response => response.json()).then(data => {
-      console.log(data)
+      // console.log(data)
       weatherObj = {
         city: loc,
         current: {
@@ -88,6 +88,7 @@ function fetchWeather(x,y) {
 function displayWeather(obj) {
   // console.log(obj)
   // clear out old data
+  today.subtract(5, 'd')
   currentHolder.empty()
   futureHolder.empty()
 
@@ -126,7 +127,30 @@ function displayWeather(obj) {
   newUV.append(newInd)
   currentHolder.append(newUV)
 
+  var forecast = obj.future
+  // console.log(forecast)
+  forecast.forEach(elm =>{
+    // console.log(elm)
+    var newCard = $('<div>').addClass('card')
 
+    var futDate = $('<h3>')
+    futDate.text(elm.date)
+    newCard.append(futDate)
+
+    var futIcon = $('<img>')
+    futIcon.attr('src', 'http://openweathermap.org/img/wn/'+ elm.icon+ '.png')
+    newCard.append(futIcon)
+
+    var futTemp = $('<p>')
+    futTemp.text('Temp: ' + elm.temp + ' °F')
+    newCard.append(futTemp)
+
+    var futHum = $('<p>')
+    futHum.text('Humidity: ' + elm.hum)
+    newCard.append(futHum)
+    futureHolder.append(newCard)
+
+  })
 
 }
 
