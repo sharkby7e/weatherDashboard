@@ -48,7 +48,7 @@ function fetchGeo(cityState) {
   var fetchGeocoding = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + ',' + state + ",US&limit=5&appid=" + owa
   fetch(fetchGeocoding)
     .then(response => response.json()).then(data=>{
-      console.log(data)
+      // console.log(data)
       if(data.length<1){
         alert('City not found. Please check spelling and try again')
         return
