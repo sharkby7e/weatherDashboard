@@ -19,22 +19,27 @@ searchBar.on('submit', (e) => {
   e.preventDefault()
   var search = searchInput.val()
   var cityState = search.split(",") 
-  if (searchArr.length === 4){
-    searchArr.pop()
-    searchArr.unshift(cityState)
-    makeButtons()
-  } else if(searchArr.length>0) {
-    searchArr.unshift(cityState)
-    makeButtons()
-  } else{
-    searchArr.push(cityState)
-    makeButtons()
+  if (cityState.length<2){
+    alert('Please enter a valid city name and state code, comma separated, eg. Oakland, CA')
+  }else{
+    if (searchArr.length === 4){
+      searchArr.pop()
+      searchArr.unshift(cityState)
+      makeButtons()
+    } else if(searchArr.length>0) {
+      searchArr.unshift(cityState)
+      makeButtons()
+    } else{
+      searchArr.push(cityState)
+      makeButtons()
+    }
+    saveToMemory()
+    loc = cityState[0] + ',' + cityState[1]
+    // console.log(loc)
+    fetchGeo(cityState)
+    // console.log(searchArr)
+
   }
-  saveToMemory()
-  loc = cityState[0] + ',' + cityState[1]
-  // console.log(loc)
-  fetchGeo(cityState)
-  // console.log(searchArr)
 })
 
 function fetchGeo(cityState) {
@@ -43,9 +48,15 @@ function fetchGeo(cityState) {
   var fetchGeocoding = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + ',' + state + ",US&limit=5&appid=" + owa
   fetch(fetchGeocoding)
     .then(response => response.json()).then(data=>{
+      console.log(data)
+      if(data.length<1){
+        alert('City not found. Please check spelling and try again')
+        return
+      }else {
       lat = data[0].lat
       lon = data[0].lon
       fetchWeather(lat,lon)
+      }
     })
 }
 
